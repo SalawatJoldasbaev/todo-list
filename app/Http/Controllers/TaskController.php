@@ -38,7 +38,7 @@ class TaskController extends Controller
         }
         $task->is_done = $request->is_done;
         $task->save();
-        return Response::success('task done');
+        return Response::success('updated');
     }
 
     public function AllTasks(Request $request)
