@@ -13,7 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->controller(TaskController::class)
         ->group(function () {
             Route::post('/', 'createTask');
-            Route::post('/{task}', 'taskDone');
+            Route::put('/{task}', 'taskDone');
             Route::get('/', 'AllTasks');
             Route::patch('/{task}', 'updateTask');
             Route::delete('/{task}', 'deleteTask');
