@@ -33,13 +33,10 @@ class TaskController extends Controller
         if ($task->user_id != $user->id) {
             return Response::error('The task does not belong to you', 400);
         }
-        if ($request->is_done !== true) {
-            return Response::error('is_done only accepts true', 400);
+        if ($task->is_done === $request->is_done) {
+            return Response::error('is_done does not accept such a value.', 400);
         }
-        if ($task->is_done === true) {
-            return Response::error('task completed earlier', 400);
-        }
-        $task->is_done = true;
+        $task->is_done = $request->is_done;
         $task->save();
         return Response::success('task done');
     }
