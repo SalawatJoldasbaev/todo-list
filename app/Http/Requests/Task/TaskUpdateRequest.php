@@ -29,6 +29,7 @@ class TaskUpdateRequest extends FormRequest
         return [
             'task' => 'required',
             'description' => 'nullable',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
 

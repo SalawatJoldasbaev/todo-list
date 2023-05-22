@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Category;
 use App\Models\User;
 use App\Src\Response;
 use Illuminate\Http\Request;
@@ -19,6 +20,10 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
         $token = $user->createToken($request->header('User-Agent'))->plainTextToken;
+        Category::create([
+            'user_id' => $user->id,
+            'name' => 'Main category'
+        ]);
         return Response::success(payload: [
             'name' => $user->name,
             'phone' => $user->phone,

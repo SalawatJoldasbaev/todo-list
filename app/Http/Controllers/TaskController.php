@@ -14,6 +14,7 @@ class TaskController extends Controller
     {
         $user = $request->user();
         $task = Task::create([
+            'category_id' => $request->category_id,
             'user_id' => $user->id,
             'task' => $request->task,
             'description' => $request->description,
@@ -23,7 +24,7 @@ class TaskController extends Controller
             'id' => $task->id,
             'task' => $task->task,
             'description' => $task->description,
-            'is_done' => $task->is_done
+            'is_done' => $task->is_done,
         ]);
     }
 
@@ -43,7 +44,9 @@ class TaskController extends Controller
 
     public function AllTasks(Request $request)
     {
-        $tasks = Task::where('user_id', $request->user()->id)->get(['id', 'task', 'description', 'is_done']);
+        $tasks = Task::where('user_id', $request->user()->id)
+            ->with('category')
+            ->get(['id', 'task', 'description', 'is_done', 'category_id']);
         return Response::success(payload: $tasks);
     }
 
@@ -54,6 +57,7 @@ class TaskController extends Controller
             return Response::error('The task does not belong to you', 400);
         }
         $task->update([
+            'category_id'=> $request->category_id,
             'task' => $request->task,
             'description' => $request->description,
         ]);
